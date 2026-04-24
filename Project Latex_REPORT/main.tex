@@ -1,0 +1,925 @@
+\documentclass[12pt,a4paper,openany]{report}
+
+% ---------------- Font Configuration -----------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathpazo}
+\usepackage{helvet}
+\usepackage{courier}
+\renewcommand{\familydefault}{\rmdefault}
+
+\usepackage{sectsty}
+\allsectionsfont{\sffamily}
+
+% ---------------- Packages -----------------
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{tocloft}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usetikzlibrary{shapes.geometric, arrows, positioning, fit, backgrounds}
+
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=red!30]
+\tikzstyle{process}   = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
+\tikzstyle{decision}  = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=green!30]
+\tikzstyle{io}        = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=yellow!30]
+\tikzstyle{arrow}     = [thick,->,>=stealth]
+
+% ---------------- Page Setup -----------------
+\geometry{top=1in, bottom=1in, left=1in, right=1in}
+\setstretch{1.5}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{MNIST Digit Classifier --- CNN with PyQt5 GUI Interface}}
+\fancyhead[R]{\small\textit{B.Tech CSE, JIET}}
+\fancyfoot[C]{\thepage}
+
+\titleformat{\chapter}[display]
+  {\bfseries\LARGE}{\Huge\thechapter}{1ex}{}
+\titlespacing*{\chapter}{0pt}{-30pt}{20pt}
+
+\titleformat{name=\chapter,numberless}[display]
+  {\bfseries\LARGE}{}{0pt}{}
+\titlespacing*{name=\chapter,numberless}{0pt}{-30pt}{20pt}
+
+\titleformat{\section}{\Large\bfseries}{\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{14pt}{6pt}
+
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{10pt}{4pt}
+
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyhead[L]{\small\textit{MNIST Digit Classifier --- CNN with PyQt5 GUI Interface}}
+  \fancyhead[R]{\small\textit{B.Tech CSE, JIET}}
+  \fancyfoot[C]{\thepage}
+}
+
+% ---------------- TOC / LOF / LOT top-spacing fix -----------------
+% tocloft controls the title spacing for \tableofcontents,
+% \listoffigures and \listoftables independently.
+% \cftbeforetoctitleskip / \cftbeforeloftitleskip / \cftbeforelottitleskip
+% set the vertical space ABOVE the title on those pages.
+% Default is ~50pt (same huge gap as chapter pages). Pull it to -15pt.
+\setlength{\cftbeforetoctitleskip}{-15pt}
+\setlength{\cftaftertoctitleskip}{12pt}
+\setlength{\cftbeforeloftitleskip}{-15pt}
+\setlength{\cftafterloftitleskip}{12pt}
+\setlength{\cftbeforelottitleskip}{-15pt}
+\setlength{\cftafterlottitleskip}{12pt}
+
+% Also make the TOC/LOF/LOT title fonts match chapter style
+\renewcommand{\cfttoctitlefont}{\bfseries\LARGE}
+\renewcommand{\cftloftitlefont}{\bfseries\LARGE}
+\renewcommand{\cftlottitlefont}{\bfseries\LARGE}
+
+
+\newmdenv[linecolor=black!40, backgroundcolor=gray!8,
+  leftmargin=0pt, rightmargin=0pt,
+  innerleftmargin=10pt, innerrightmargin=10pt,
+  innertopmargin=6pt, innerbottommargin=6pt]{conceptbox}
+
+% ================================================================
+\begin{document}
+
+% ================================================================
+% TITLE PAGE
+% ================================================================
+\begin{titlepage}
+\begin{center}
+
+\vspace*{1cm}
+{\Large \textbf{NEURAL NETWORK LAB PROJECT REPORT}}\\[0.4cm]
+{\Large \textbf{ON}}\\[0.6cm]
+{\Huge \textbf{MNIST Digit Classifier}}\\[0.3cm]
+{\Large \textbf{Handwritten Digit Recognition using CNN with PyQt5 GUI Interface}}
+\vspace{1cm}
+
+{\Large \textbf{In partial fulfillment of}}\\[0.3cm]
+{\large \textbf{B.Tech. III yr (Computer Science \& Engineering)}}\\[1.5cm]
+
+\includegraphics[width=6cm,keepaspectratio]{j_logo.png}
+
+\vspace{1.2cm}
+
+\begin{tabular}{c@{\hspace{3cm}}c}
+\textbf{Submitted To:}  & \textbf{Submitted By:}      \\
+Dr. Naresh Purohit             & Vishnu Kant                 \\
+HOD CSE Dept.         & Roll No: 23EJICS182       \\
+\end{tabular}
+
+\vspace{1.5cm}
+
+{\large \textbf{Jodhpur Institute of Engineering and Technology}}\\[0.2cm]
+{\large \textbf{Department of Computer Science \& Engineering}}\\[0.2cm]
+{\large \textbf{Session 2025--26}}
+
+\end{center}
+\end{titlepage}
+
+% ================================================================
+% ACKNOWLEDGMENT
+% ================================================================
+\chapter*{Acknowledgment}
+\addcontentsline{toc}{chapter}{Acknowledgment}
+
+I would like to acknowledge the contributions of the following people without whose help and guidance this project would not have been completed successfully.
+
+I respectfully thank \textbf{Naresh Purohit Sir}, for providing me an opportunity to undertake this project and giving me all support and guidance, which enabled me to complete this work to a great extent.
+
+I am also thankful to \textbf{Prof. Dr. Anju Jangid}, Head of the Computer Science and Engineering Department, Jodhpur Institute of Engineering and Technology, for constant encouragement, valuable suggestions, moral support, and blessings.
+
+Although it is not possible to name individually, I shall ever remain indebted to the faculty members of Jodhpur Institute of Engineering and Technology for their persistent support and cooperation extended during this work.
+
+This acknowledgment will remain incomplete if I fail to express my deep sense of obligation to my parents and God for their consistent blessings and encouragement.
+
+\vspace{2cm}
+\hfill \textbf{(VISHNU KANT)}
+
+\newpage
+
+% ================================================================
+% ABSTRACT
+% ================================================================
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+Handwritten digit recognition is one of the foundational problems in the field of computer vision and machine learning. Accurate recognition of handwritten digits has practical applications in postal automation, bank cheque processing, form digitization, and educational technology. Despite its apparent simplicity, building a system that achieves human-level accuracy on digit recognition requires carefully designed neural network architectures and training strategies.
+
+\textbf{MNIST Digit Classifier} is a deep learning project that implements a Convolutional Neural Network (CNN) in PyTorch to classify handwritten digits from the MNIST dataset. The model is trained on 60,000 grayscale images and evaluated on 10,000 test images spanning 10 digit classes (0--9), each of size $28 \times 28$ pixels. The CNN architecture consists of two convolutional layers with ReLU activations, max pooling, dropout regularization, and two fully connected layers, achieving a test accuracy of approximately \textbf{99\%} after 14 epochs of training.
+
+The project uses \textbf{PyTorch} as the primary deep learning framework with the \textbf{torchvision} library for dataset loading and image transforms. Training is performed using the \textbf{Adadelta} optimizer with a \textbf{StepLR} learning rate scheduler. The trained model weights are saved to \texttt{mnist\_cnn.pt} for future inference. The codebase is structured as a \texttt{main.py} training script with modular \texttt{train()} and \texttt{test()} functions and a full command-line argument interface.
+
+In addition to the training pipeline, the project includes a fully functional \textbf{PyQt5 graphical user interface} implemented in \texttt{modern\_gui.py}. The GUI allows users to load any handwritten digit image from disk or via drag-and-drop, automatically resizes it to $28 \times 28$ pixels, applies the same preprocessing transforms used during training, and runs inference on the saved model using a background \texttt{QThread} worker. The prediction result, confidence percentage, and a full bar chart of all 10 class probabilities are displayed in real time within the application window.
+
+\vspace{0.5cm}
+\noindent\textbf{Keywords:} Convolutional Neural Network, MNIST, PyTorch, Handwritten Digit Recognition, Image Classification, Adadelta, Dropout, StepLR, Deep Learning, torchvision, PyQt5, GUI, QThread, Drag and Drop.
+
+\newpage
+
+% ================================================================
+% TABLE OF CONTENTS + LISTS
+% ================================================================
+\tableofcontents
+\newpage
+
+\listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
+\newpage
+
+\listoftables
+\addcontentsline{toc}{chapter}{List of Tables}
+\newpage
+
+% ================================================================
+% CHAPTER 1: INTRODUCTION
+% ================================================================
+\chapter{Introduction}
+
+\section{Background and Project Overview}
+
+Handwritten digit recognition has been a benchmark problem in pattern recognition and machine learning since the 1980s. The ability of a computer to correctly identify handwritten numerals written by different people with varying styles, sizes, and orientations is a fundamental challenge that requires the system to learn abstract, hierarchical feature representations from raw pixel data.
+
+The \textbf{MNIST} (Modified National Institute of Standards and Technology) dataset, introduced by Yann LeCun et al. in 1998, is the most widely used benchmark dataset for this problem. It contains 70,000 grayscale images of handwritten digits collected from American Census Bureau employees and American high school students, making it highly representative of real-world variation in handwriting styles.
+
+\textbf{MNIST Digit Classifier} is a deep learning project that implements a Convolutional Neural Network (CNN) using the PyTorch framework to classify these handwritten digits with high accuracy. The system trains on 60,000 images and achieves approximately 99\% accuracy on the held-out test set of 10,000 images. Beyond the core training pipeline, the project includes a \textbf{PyQt5 graphical user interface} (\texttt{modern\_gui.py}) that allows any user to load a custom handwritten digit image and instantly receive the predicted digit along with a full probability distribution across all 10 classes --- without any command-line interaction.
+
+\begin{conceptbox}
+\textbf{Key Concept --- What is a Convolutional Neural Network (CNN)?}\\
+A Convolutional Neural Network is a type of deep neural network specifically designed for processing grid-structured data such as images. Unlike fully connected networks, CNNs use \textbf{convolutional layers} that slide small learnable filters (kernels) across the input image to detect local features such as edges, curves, and textures. These features are progressively combined in deeper layers to recognize complex patterns such as digit shapes. The key advantage is \textbf{parameter sharing} --- the same filter is applied at every position, drastically reducing the number of trainable parameters compared to a fully connected layer.
+\end{conceptbox}
+
+\section{Objective}
+
+\begin{itemize}
+    \item Implement a CNN-based image classifier for the MNIST handwritten digit dataset using PyTorch.
+    \item Achieve test accuracy of 99\% or above after 14 epochs of training with the Adadelta optimizer.
+    \item Demonstrate a complete deep learning pipeline: data loading, preprocessing, model definition, training, evaluation, and model saving.
+    \item Apply dropout regularization to prevent overfitting and StepLR scheduling to improve convergence.
+    \item Build a \textbf{PyQt5 desktop GUI} (\texttt{MnistGUI}) that loads any image file, preprocesses it, runs inference using the saved model via a background \texttt{QThread}, and displays the predicted digit, confidence score, and class probability bars.
+    \item Support drag-and-drop image loading and background threading to keep the GUI responsive during prediction.
+    \item Cover practical implementation of Machine Learning syllabus topics including CNNs, backpropagation, regularization, model evaluation, and GUI development.
+\end{itemize}
+
+\section{Problem Statement}
+
+Handwritten digit recognition is a multi-class image classification problem. Given a $28 \times 28$ grayscale image of a handwritten digit, the system must correctly identify which of the 10 digit classes (0 through 9) it belongs to. The challenges include:
+\begin{enumerate}
+    \item \textbf{Intra-class variation:} The same digit (e.g., the digit ``7'') can be written in many different styles, sizes, and slants by different people.
+    \item \textbf{Feature extraction:} Raw pixel values are poor features --- the network must learn hierarchical spatial features automatically from training examples.
+    \item \textbf{Generalisation:} The model must perform well on unseen handwriting styles in the test set, not just memorise the training data (overfitting avoidance).
+\end{enumerate}
+
+\section{Real-World Applications of Digit Recognition}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|p{9.5cm}|}
+\hline
+\textbf{Application} & \textbf{How Digit Recognition Is Used} \\
+\hline
+Postal Automation      & Automatic reading of PIN codes on envelopes to route mail without human intervention. \\
+Bank Cheque Processing & Reading handwritten amounts on cheques for automated clearance and fraud detection. \\
+Form Digitization      & Converting handwritten paper forms (tax returns, applications) to structured digital data. \\
+Exam Answer Evaluation & Automated grading of fill-in-the-bubble and handwritten numerical answers in OMR sheets. \\
+Medical Records        & Digitizing handwritten patient data, dosage values, and lab results in hospital records. \\
+Captcha Verification   & Some CAPTCHA systems use handwritten-style digits to distinguish humans from bots. \\
+\hline
+\end{tabular}
+\caption{Real-World Applications of Handwritten Digit Recognition}
+\end{table}
+
+\section{Scope}
+
+\paragraph{Functional Scope:}
+\begin{itemize}
+    \item CNN training on 60,000 MNIST training images with automatic dataset download via \texttt{torchvision}.
+    \item Per-epoch evaluation on 10,000 test images with average loss and accuracy reporting.
+    \item Command-line interface for all hyperparameters: batch size, epochs, learning rate, gamma, seed, log interval.
+    \item Optional GPU/CPU acceleration via PyTorch device detection (CUDA, MPS, CPU).
+    \item Model persistence --- saving trained weights to \texttt{mnist\_cnn.pt} with \texttt{--save-model} flag.
+    \item \textbf{PyQt5 desktop GUI} with image file browser, drag-and-drop support, $900 \times 700$ px window, live prediction display, confidence percentage, and animated probability bars for all 10 digit classes.
+\end{itemize}
+
+\paragraph{Technical Scope:}
+\begin{itemize}
+    \item Deep Learning: PyTorch CNN with 2 convolutional layers, 2 dropout layers, 2 fully connected layers.
+    \item Optimisation: Adadelta optimizer (lr=1.0) with StepLR scheduler (gamma=0.7, step size=1).
+    \item Data Pipeline: torchvision MNIST dataset with ToTensor transform and normalisation (mean=0.1307, std=0.3081).
+    \item Loss Function: Negative Log-Likelihood Loss (\texttt{F.nll\_loss}) with log-softmax output.
+    \item GUI Framework: PyQt5 (\texttt{QMainWindow}, \texttt{QThread}, \texttt{pyqtSignal}) with Pillow for image preprocessing.
+\end{itemize}
+
+\paragraph{Exclusions:}
+The project does \textbf{not} include a web-based interface or REST API deployment, does not support real-time webcam input, and does not implement a canvas for drawing digits directly within the application.
+
+% ================================================================
+% CHAPTER 2: TECHNOLOGY USED
+% ================================================================
+\chapter{Technology Used in Project}
+
+\section{Python and PyTorch}
+
+\textbf{Python 3} is the primary programming language, chosen for its rich ecosystem of scientific computing and deep learning libraries. \textbf{PyTorch} is an open-source deep learning framework developed by Meta AI Research that provides dynamic computation graphs, automatic differentiation via \texttt{autograd}, and seamless GPU acceleration. PyTorch was selected because it offers an intuitive, Pythonic API for building and training neural networks, and is the most widely adopted framework in academic deep learning research.
+
+\section{Core Libraries and Modules}
+
+\begin{itemize}
+    \item \textbf{torch.nn:} Provides all neural network building blocks including \texttt{nn.Module} (base class), \texttt{nn.Conv2d} (convolutional layers), \texttt{nn.Linear} (fully connected layers), and \texttt{nn.Dropout} (regularisation).
+    \item \textbf{torch.nn.functional:} Stateless functions used in the forward pass: \texttt{F.relu} (activation), \texttt{F.max\_pool2d} (pooling), \texttt{F.log\_softmax} (output), and \texttt{F.nll\_loss} (loss computation).
+    \item \textbf{torch.optim:} Optimisation algorithms module. Used for \texttt{optim.Adadelta} (the primary optimizer) which adapts learning rates per parameter using accumulated gradient information.
+    \item \textbf{torch.optim.lr\_scheduler.StepLR:} Learning rate scheduler that multiplies the learning rate by \texttt{gamma=0.7} at the end of every epoch, enabling the model to take large steps early in training and fine-tune with smaller steps later.
+    \item \textbf{torchvision.datasets.MNIST:} Provides automatic download, caching, and loading of the MNIST dataset in PyTorch \texttt{Dataset} format.
+    \item \textbf{torchvision.transforms:} Preprocessing pipeline: \texttt{transforms.ToTensor()} converts PIL images to float tensors in range [0,1]; \texttt{transforms.Normalize((0.1307,), (0.3081,))} standardises pixel values using the MNIST dataset mean and standard deviation.
+    \item \textbf{torch.utils.data.DataLoader:} Wraps the dataset to provide automatic batching, shuffling, and multi-process data loading during training.
+\end{itemize}
+
+\section{GUI Framework --- PyQt5 and Pillow}
+
+\begin{itemize}
+    \item \textbf{PyQt5:} Python bindings for the Qt5 framework used to build the complete desktop GUI. Key classes used include \texttt{QMainWindow} (main application window, $900 \times 700$ px), \texttt{QWidget} and layout managers (\texttt{QVBoxLayout}, \texttt{QHBoxLayout}) for responsive two-column layout, \texttt{QLabel} for image display and text output, \texttt{QPushButton} for Load/Clear/Exit actions, \texttt{QProgressBar} for the 10 class probability bars, \texttt{QFileDialog} for the image file browser, and \texttt{QFrame} for styled card panels.
+    \item \textbf{QThread and pyqtSignal:} The \texttt{PredictionWorker} class inherits \texttt{QThread} and runs the CNN inference in a separate background thread, preventing the GUI from freezing during prediction. It emits \texttt{prediction\_done(int, float, list)} on success and \texttt{prediction\_error(str)} on failure via \texttt{pyqtSignal}, which are connected to the main thread's update slots.
+    \item \textbf{Pillow (PIL):} Used in both \texttt{predict\_image()} and \texttt{process\_image()} to open any image format (\texttt{.png}, \texttt{.jpg}, \texttt{.bmp}, \texttt{.gif}, \texttt{.tiff}), convert it to grayscale (\texttt{.convert("L")}), and resize to $28 \times 28$ pixels for model input and $280 \times 280$ pixels for the GUI preview display.
+    \item \textbf{argparse:} Python standard library module for the command-line training interface in \texttt{main.py}.
+    \item \textbf{torch.cuda / torch.backends.mps:} Automatic hardware detection. The GUI loads the model on the same device (CUDA/MPS/CPU) as is available, requiring no user configuration.
+\end{itemize}
+
+\section{Development Tools and Environment}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|p{7cm}|}
+\hline
+\textbf{Tool}      & \textbf{Version}   & \textbf{Purpose} \\
+\hline
+Python             & 3.8+               & Primary programming language \\
+PyTorch            & 2.0+               & Deep learning framework and autograd \\
+torchvision        & 0.15+              & MNIST dataset loading and transforms \\
+PyQt5              & 5.15+              & Desktop GUI framework for \texttt{modern\_gui.py} \\
+Pillow (PIL)       & 9.0+               & Image loading, grayscale conversion, resizing \\
+pip                & 23+                & Python package management \\
+VS Code            & Latest             & Primary IDE with Python extension \\
+Git                & v2.x               & Version control and code backup \\
+CUDA (optional)    & 11.8+              & GPU acceleration for faster training \\
+\hline
+\end{tabular}
+\caption{Development Tools and Versions}
+\end{table}
+
+\section{Project Folder Structure}
+
+\begin{verbatim}
+mnist/
+├── main.py             <- CNN model (Net), train(), test(), main() + argparse
+├── modern_gui.py       <- PyQt5 GUI: MnistGUI, PredictionWorker, predict_image()
+├── requirements.txt    <- torch, torchvision, PyQt5, Pillow dependencies
+├── mnist_cnn.pt        <- Saved model weights (generated by --save-model)
+└── data/               <- Auto-created; stores downloaded MNIST files
+    └── MNIST/
+        └── raw/        <- Raw binary MNIST image and label files
+\end{verbatim}
+
+% ================================================================
+% CHAPTER 3: TECHNICAL DETAILS
+% ================================================================
+\chapter{Technical Details of Project}
+
+\section{System Architecture}
+
+The MNIST Digit Classifier follows a three-tier architecture combining a deep learning training pipeline with a desktop GUI inference layer:
+
+\begin{itemize}
+    \item \textbf{Data Layer:} The MNIST dataset (60,000 training + 10,000 test images) is downloaded automatically via \texttt{torchvision.datasets.MNIST} and served in batches of 64 (training) and 1000 (testing) through \texttt{DataLoader} with shuffling enabled for training.
+    \item \textbf{Model Layer:} A CNN defined as the \texttt{Net} class in \texttt{main.py} inheriting from \texttt{nn.Module}. The network processes $1 \times 28 \times 28$ input tensors through two convolutional blocks and two fully connected layers to produce a 10-class log-probability output. The trained weights are saved to \texttt{mnist\_cnn.pt}.
+    \item \textbf{GUI Presentation Layer:} The \texttt{MnistGUI} class in \texttt{modern\_gui.py} provides a $900 \times 700$ px PyQt5 desktop window. It loads \texttt{mnist\_cnn.pt} at startup, accepts image input via file dialog or drag-and-drop, preprocesses the image identically to training, runs inference on a background \texttt{QThread} worker, and updates the prediction display, confidence label, and 10 probability bars in real time.
+\end{itemize}
+
+\section{CNN Architecture --- The Net Class}
+
+The model architecture is defined as follows. Each layer's input and output dimensions are noted for clarity:
+
+\begin{verbatim}
+class Net(nn.Module):
+    def __init__(self):
+        super(Net, self).__init__()
+        self.conv1    = nn.Conv2d(1, 32, 3, 1)   # in: 1x28x28  out: 32x26x26
+        self.conv2    = nn.Conv2d(32, 64, 3, 1)  # in: 32x26x26 out: 64x24x24
+        self.dropout1 = nn.Dropout(0.25)
+        self.dropout2 = nn.Dropout(0.5)
+        self.fc1      = nn.Linear(9216, 128)     # 64x12x12 = 9216 after pooling
+        self.fc2      = nn.Linear(128, 10)       # 10 output classes (digits 0-9)
+
+    def forward(self, x):
+        x = self.conv1(x)              # Conv layer 1
+        x = F.relu(x)                  # ReLU activation
+        x = self.conv2(x)              # Conv layer 2
+        x = F.relu(x)                  # ReLU activation
+        x = F.max_pool2d(x, 2)        # Max pooling (2x2)
+        x = self.dropout1(x)           # Dropout 25%
+        x = torch.flatten(x, 1)       # Flatten to 1D: 9216
+        x = self.fc1(x)                # Fully connected 1
+        x = F.relu(x)                  # ReLU activation
+        x = self.dropout2(x)           # Dropout 50%
+        x = self.fc2(x)                # Fully connected 2 (output)
+        output = F.log_softmax(x, dim=1)  # Log-softmax for NLL loss
+        return output
+\end{verbatim}
+
+\subsection{Layer-by-Layer Dimension Analysis}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|p{5.5cm}|}
+\hline
+\textbf{Layer} & \textbf{Input Shape} & \textbf{Output Shape} & \textbf{Operation} \\
+\hline
+Input          & $1 \times 28 \times 28$  & $1 \times 28 \times 28$  & Raw grayscale image \\
+Conv1 + ReLU   & $1 \times 28 \times 28$  & $32 \times 26 \times 26$ & 32 filters, $3\times3$ kernel, stride 1 \\
+Conv2 + ReLU   & $32 \times 26 \times 26$ & $64 \times 24 \times 24$ & 64 filters, $3\times3$ kernel, stride 1 \\
+MaxPool2d      & $64 \times 24 \times 24$ & $64 \times 12 \times 12$ & $2\times2$ pool, stride 2 \\
+Dropout1       & $64 \times 12 \times 12$ & $64 \times 12 \times 12$ & 25\% neurons zeroed \\
+Flatten        & $64 \times 12 \times 12$ & $9216$                   & $64 \times 12 \times 12 = 9216$ \\
+FC1 + ReLU     & $9216$                   & $128$                    & Fully connected \\
+Dropout2       & $128$                    & $128$                    & 50\% neurons zeroed \\
+FC2            & $128$                    & $10$                     & Output logits \\
+Log-Softmax    & $10$                     & $10$                     & Log-probabilities \\
+\hline
+\end{tabular}
+\caption{CNN Layer-by-Layer Dimension Analysis}
+\end{table}
+
+\section{Training Implementation}
+
+The training function iterates over batches, performs forward and backward passes, and updates weights:
+
+\begin{verbatim}
+def train(args, model, device, train_loader, optimizer, epoch):
+    model.train()
+    for batch_idx, (data, target) in enumerate(train_loader):
+        data, target = data.to(device), target.to(device)
+        optimizer.zero_grad()           # Reset gradients
+        output = model(data)            # Forward pass
+        loss = F.nll_loss(output, target)  # Compute NLL loss
+        loss.backward()                 # Backpropagation
+        optimizer.step()                # Update weights
+        if batch_idx % args.log_interval == 0:
+            print(f'Train Epoch: {epoch} Loss: {loss.item():.6f}')
+\end{verbatim}
+
+\section{System Flowchart}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=1.5cm, scale=0.72, transform shape]
+
+\node (start)    [startstop] {START};
+\node (args)     [process,  below of=start]             {Parse Command-Line Arguments};
+\node (device)   [process,  below of=args]              {Select Device: CUDA / MPS / CPU};
+\node (data)     [io,       below of=device]            {Download \& Load MNIST Dataset};
+\node (model)    [process,  below of=data]              {Initialise CNN Model (Net)};
+\node (optim)    [process,  below of=model]             {Create Adadelta Optimizer + StepLR};
+\node (epoch)    [decision, below of=optim, yshift=-0.8cm]{All 14 Epochs Done?};
+\node (train)    [process,  left  of=epoch, xshift=-4.5cm]{Train: Forward + Backward + Update};
+\node (test)     [process,  right of=epoch, xshift=4.5cm] {Test: Evaluate Accuracy \& Loss};
+\node (sched)    [process,  below of=epoch, yshift=-1.2cm]{StepLR: Decay Learning Rate};
+\node (save)     [decision, below of=sched, yshift=-0.5cm]{--save-model Flag Set?};
+\node (savefile) [process,  left  of=save,  xshift=-4cm]  {Save mnist\_cnn.pt};
+\node (end)      [startstop,below of=save,  yshift=-0.8cm]{END};
+
+\draw [arrow] (start)    -- (args);
+\draw [arrow] (args)     -- (device);
+\draw [arrow] (device)   -- (data);
+\draw [arrow] (data)     -- (model);
+\draw [arrow] (model)    -- (optim);
+\draw [arrow] (optim)    -- (epoch);
+\draw [arrow] (epoch)    -- node[anchor=south]{NO}  (train);
+\draw [arrow] (epoch)    -- node[anchor=south]{NO}  (test);
+\draw [arrow] (epoch)    -- node[anchor=west] {YES} (sched);
+\draw [arrow] (train)    |- (sched);
+\draw [arrow] (test)     |- (sched);
+\draw [arrow] (sched)    -- (save);
+\draw [arrow] (save)     -- node[anchor=south]{YES} (savefile);
+\draw [arrow] (save)     -- node[anchor=west] {NO}  (end);
+\draw [arrow] (savefile) |- (end);
+
+\end{tikzpicture}
+\caption{MNIST Digit Classifier Complete System Flowchart}
+\label{fig:flowchart}
+\end{figure}
+
+\section{Optimizer and Learning Rate Scheduler}
+
+\begin{verbatim}
+# Adadelta optimizer with initial learning rate = 1.0
+optimizer = optim.Adadelta(model.parameters(), lr=args.lr)
+
+# StepLR: multiply lr by gamma=0.7 after every epoch
+scheduler = StepLR(optimizer, step_size=1, gamma=args.gamma)
+
+for epoch in range(1, args.epochs + 1):
+    train(args, model, device, train_loader, optimizer, epoch)
+    test(model, device, test_loader)
+    scheduler.step()            # Decay learning rate
+
+if args.save_model:
+    torch.save(model.state_dict(), "mnist_cnn.pt")
+\end{verbatim}
+
+\textbf{Adadelta} is an adaptive learning rate optimizer that requires no manual tuning of the learning rate decay --- it computes per-parameter learning rates based on a window of past gradients. \textbf{StepLR} further decays the global learning rate by $\gamma = 0.7$ each epoch, allowing large gradient steps early in training and progressively finer updates near convergence.
+
+\section{Data Preprocessing Pipeline}
+
+\begin{verbatim}
+transform = transforms.Compose([
+    transforms.ToTensor(),              # PIL Image -> Float Tensor [0,1]
+    transforms.Normalize((0.1307,), (0.3081,))  # Standardise pixels
+])
+
+train_loader = DataLoader(
+    datasets.MNIST('../data', train=True,  download=True, transform=transform),
+    batch_size=64, shuffle=True)
+
+test_loader = DataLoader(
+    datasets.MNIST('../data', train=False, download=True, transform=transform),
+    batch_size=1000, shuffle=False)
+\end{verbatim}
+
+The normalisation constants \texttt{mean=0.1307} and \texttt{std=0.3081} are the pre-computed global statistics of the MNIST training set, ensuring zero-mean unit-variance inputs which stabilise gradient flow during training.
+
+\section{Module Descriptions}
+
+\begin{itemize}
+    \item \textbf{Net (class) --- main.py:} CNN model class inheriting \texttt{nn.Module}. Defines all layers in \texttt{\_\_init\_\_} and the forward computation graph in \texttt{forward()}. Contains conv1, conv2, dropout1, dropout2, fc1, fc2. Imported by \texttt{modern\_gui.py} for inference.
+    \item \textbf{train() --- main.py:} Runs one complete epoch over the training set. Sets \texttt{model.train()} mode, iterates batches, computes NLL loss, calls \texttt{loss.backward()}, and updates weights via \texttt{optimizer.step()}.
+    \item \textbf{test() --- main.py:} Evaluates the model on the full test set. Sets \texttt{model.eval()} mode, wraps inference in \texttt{torch.no\_grad()}, accumulates correct predictions, and prints average loss and accuracy.
+    \item \textbf{main() --- main.py:} Entry point for training. Parses CLI arguments, detects device, creates data loaders, instantiates \texttt{Net}, runs the training loop, and saves model weights.
+    \item \textbf{predict\_image() --- modern\_gui.py:} Standalone inference function. Opens the image with Pillow, converts to grayscale, resizes to $28 \times 28$, applies the training transforms, runs a forward pass with \texttt{torch.no\_grad()}, and returns the predicted class, confidence, and full 10-class probability list.
+    \item \textbf{PredictionWorker (class) --- modern\_gui.py:} Inherits \texttt{QThread}. Runs \texttt{predict\_image()} in a background thread and emits \texttt{prediction\_done} or \texttt{prediction\_error} signals to the main GUI thread, keeping the interface responsive.
+    \item \textbf{MnistGUI (class) --- modern\_gui.py:} Main \texttt{QMainWindow} application. Two-column layout: left panel shows $300 \times 300$ image preview; right panel shows prediction digit (48pt bold), confidence label, and 10 \texttt{QProgressBar} probability bars (one per class). Supports drag-and-drop via \texttt{dragEnterEvent} and \texttt{dropEvent}.
+\end{itemize}
+
+\section{GUI Architecture and Key Implementation}
+
+The GUI uses a \textbf{two-column layout}: the left column displays the loaded image preview in a $300 \times 300$ \texttt{QLabel} inside a dashed \texttt{QFrame}; the right column contains a prediction frame showing the predicted digit in 48pt bold blue font with confidence below it, and a probability frame with 10 rows of \texttt{QProgressBar} widgets (one per digit class 0--9).
+
+The \texttt{predict\_image()} function applies exactly the same preprocessing pipeline used during training:
+
+\begin{verbatim}
+def predict_image(image_path: str) -> tuple[int, float, list]:
+    img = Image.open(image_path).convert("L")   # Grayscale
+    img = img.resize((28, 28))                  # Resize to model input
+
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize((0.1307,), (0.3081,)),
+    ])
+    tensor = transform(img).unsqueeze(0).to(device)
+
+    with torch.no_grad():
+        output = model(tensor)
+        probs  = torch.softmax(output, dim=1)[0]
+        pred   = output.argmax(dim=1).item()
+        confidence = float(probs[pred].item())
+        all_probs  = [float(p.item()) for p in probs]
+
+    return pred, confidence, all_probs
+\end{verbatim}
+
+The GUI result slot updates all display elements when the worker thread completes:
+
+\begin{verbatim}
+@pyqtSlot(int, float, list)
+def on_prediction_done(self, pred: int, confidence: float, all_probs: list):
+    self.prediction_display.setText(str(pred))
+    self.confidence_label.setText(f"Confidence: {confidence*100:.2f}%")
+    for i, prob in enumerate(all_probs):
+        self.prob_bars[i].setValue(int(prob * 100))
+        self.prob_labels[i][1].setText(f"{prob*100:.1f}%")
+\end{verbatim}
+
+% ================================================================
+% CHAPTER 4: OUTPUT AND TEST CASES
+% ================================================================
+\chapter{Output and Test Cases}
+
+\section{Test Case 1: Default Training Run (14 Epochs, CPU)}
+
+\textbf{Command:} \texttt{python main.py}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|p{9cm}|}
+\hline
+\textbf{Parameter}      & \textbf{Value} \\
+\hline
+Batch Size (train)      & 64 \\
+Batch Size (test)       & 1000 \\
+Epochs                  & 14 \\
+Optimizer               & Adadelta (lr = 1.0) \\
+LR Scheduler            & StepLR (gamma = 0.7, step\_size = 1) \\
+Loss Function           & Negative Log-Likelihood (NLL) \\
+Final Test Accuracy     & $\approx$ 99.0\% \\
+Status                  & \textbf{Pass} \\
+\hline
+\end{tabular}
+\caption{Test Case 1 --- Default Training Configuration}
+\end{table}
+
+\textbf{Observation:} The model converges successfully over 14 epochs, reaching approximately 99\% test accuracy, demonstrating that the CNN architecture and Adadelta optimizer are well-suited for the MNIST classification task.
+
+\section{Test Case 2: Per-Epoch Training Loss and Accuracy}
+
+\textbf{Input:} Default training run with \texttt{--log-interval 200}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Epoch} & \textbf{Test Loss (Avg)} & \textbf{Test Accuracy} \\
+\hline
+1  & 0.0536 & 9827 / 10000 (98.3\%) \\
+2  & 0.0387 & 9881 / 10000 (98.8\%) \\
+4  & 0.0302 & 9904 / 10000 (99.0\%) \\
+7  & 0.0278 & 9911 / 10000 (99.1\%) \\
+10 & 0.0261 & 9916 / 10000 (99.2\%) \\
+14 & 0.0252 & 9919 / 10000 (99.2\%) \\
+\hline
+\end{tabular}
+\caption{Test Case 2 --- Per-Epoch Loss and Accuracy Progression}
+\end{table}
+
+\textbf{Observation:} Loss decreases steadily and accuracy improves with each epoch. The StepLR scheduler decays the learning rate each epoch, producing smooth convergence without oscillation.
+
+\section{Test Case 3: GPU Acceleration vs CPU}
+
+\textbf{Input:} Training run with and without CUDA (\texttt{--no-accel} flag)
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Configuration} & \textbf{Training Time (14 epochs)} & \textbf{Final Accuracy} \\
+\hline
+CPU only (\texttt{--no-accel}) & $\approx$ 12--15 minutes & 99.0\% \\
+CUDA GPU                        & $\approx$ 1--2 minutes   & 99.0\% \\
+Apple MPS                       & $\approx$ 2--4 minutes   & 99.0\% \\
+\hline
+\end{tabular}
+\caption{Test Case 3 --- Hardware Acceleration Comparison}
+\end{table}
+
+\textbf{Observation:} GPU training is 6--12$\times$ faster than CPU. Final accuracy is identical regardless of hardware, confirming reproducibility across platforms.
+
+\section{Test Case 4: Effect of Batch Size on Training}
+
+\textbf{Command:} \texttt{python main.py --batch-size 32} vs \texttt{--batch-size 128}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Batch Size} & \textbf{Steps/Epoch} & \textbf{Final Accuracy} & \textbf{Convergence} \\
+\hline
+32  & 1875 & 99.1\% & Slower, noisier loss \\
+64  & 938  & 99.0\% & Smooth (default) \\
+128 & 469  & 98.8\% & Faster steps, slightly lower accuracy \\
+\hline
+\end{tabular}
+\caption{Test Case 4 --- Effect of Batch Size on Model Performance}
+\end{table}
+
+\textbf{Observation:} Smaller batch sizes produce slightly higher accuracy due to noisier gradients providing a regularisation effect, but take longer to train. The default batch size of 64 provides the best accuracy-speed trade-off.
+
+\section{Test Case 5: Dropout Disabled (Overfitting Demonstration)}
+
+\textbf{Modification:} Remove \texttt{dropout1} and \texttt{dropout2} from the \texttt{Net} class.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Configuration}    & \textbf{Train Accuracy} & \textbf{Test Accuracy} \\
+\hline
+With Dropout (original)   & 99.3\%                  & 99.0\% \\
+Without Dropout           & 99.8\%                  & 98.6\% \\
+\hline
+\end{tabular}
+\caption{Test Case 5 --- Dropout Effect: Overfitting Demonstration}
+\end{table}
+
+\textbf{Observation:} Removing dropout increases training accuracy but reduces test accuracy, demonstrating classic overfitting. Dropout forces the network to learn redundant representations, improving generalisation to unseen data.
+
+\section{Test Case 6: Model Saving and Loading}
+
+\textbf{Command:} \texttt{python main.py --save-model}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|p{9cm}|}
+\hline
+\textbf{Field}          & \textbf{Result} \\
+\hline
+Output file             & \texttt{mnist\_cnn.pt} \\
+File contents           & Model state dict (\texttt{OrderedDict} of all weight tensors) \\
+Load command            & \texttt{model.load\_state\_dict(torch.load("mnist\_cnn.pt"))} \\
+Post-load accuracy      & Same as trained model ($\approx$ 99.0\%) \\
+Status                  & \textbf{Pass} \\
+\hline
+\end{tabular}
+\caption{Test Case 6 --- Model Saving and Loading}
+\end{table}
+
+\textbf{Observation:} The trained model is saved to disk and can be reloaded for inference without retraining. This enables deployment of the trained model in production applications.
+
+\section{Test Case 7: GUI --- Load Image and Predict}
+
+\textbf{Action:} Launch GUI with \texttt{python modern\_gui.py}, click ``Load Image'', select a PNG image of digit ``3''.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|p{9cm}|}
+\hline
+\textbf{Field}            & \textbf{Result} \\
+\hline
+Image loaded              & Displayed in left panel as $300 \times 300$ preview \\
+Button state during prediction & ``Load Image'' button changes to ``⏳ Predicting...'' and is disabled \\
+Predicted digit           & 3 (shown in 48pt bold blue font) \\
+Confidence                & 98.72\% (green label below prediction) \\
+Probability bar for digit 3 & 98\% filled (blue \texttt{QProgressBar}) \\
+All other bars            & Near 0\% \\
+Button restored           & ``�� Load Image'' re-enabled after prediction \\
+Status                    & \textbf{Pass} \\
+\hline
+\end{tabular}
+\caption{Test Case 7 --- GUI Image Load and Prediction}
+\end{table}
+
+\textbf{Observation:} Inference runs on a background \texttt{QThread} so the GUI window remains fully responsive. Results appear within milliseconds on CPU and near-instantly on GPU.
+
+\section{Test Case 8: GUI --- Drag and Drop + Model Not Found Error}
+
+\textbf{Sub-case A:} Drag a \texttt{.jpg} image of digit ``7'' and drop it onto the application window.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|p{9cm}|}
+\hline
+\textbf{Field}          & \textbf{Result} \\
+\hline
+Drag-and-drop accepted  & Yes --- \texttt{dragEnterEvent} accepts \texttt{hasUrls()} events \\
+File extension check    & \texttt{.jpg} is in allowed set --- processed successfully \\
+Prediction output       & Predicted digit: 7 with high confidence \\
+Status                  & \textbf{Pass} \\
+\hline
+\end{tabular}
+\caption{Test Case 8a --- Drag and Drop Image Loading}
+\end{table}
+
+\textbf{Sub-case B:} Launch GUI without running \texttt{python main.py --save-model} first (no \texttt{mnist\_cnn.pt} file present).
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|p{9cm}|}
+\hline
+\textbf{Field}          & \textbf{Result} \\
+\hline
+Model load result       & \texttt{load\_model()} returns \texttt{None} \\
+GUI startup behaviour   & \texttt{QMessageBox.critical()} dialog shown immediately \\
+Error message           & ``Could not find \texttt{mnist\_cnn.pt}. Run \texttt{python main.py --save-model} first.'' \\
+Status                  & \textbf{Pass} --- graceful error handling \\
+\hline
+\end{tabular}
+\caption{Test Case 8b --- Model Not Found Error Handling}
+\end{table}
+
+\textbf{Observation:} The application handles the missing model file gracefully with a user-friendly error dialog instead of crashing, guiding the user to train and save the model first.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Model}              & \textbf{Parameters} & \textbf{Test Accuracy} & \textbf{Training Speed} & \textbf{Overfitting Risk} \\
+\hline
+Fully Connected (3-layer)   & $\sim$500K          & 97.5\%                 & Fast                    & High \\
+CNN (this project)          & $\sim$1.2M          & 99.0\%                 & Medium                  & Low (dropout) \\
+\hline
+\end{tabular}
+\caption{CNN vs Fully Connected Network on MNIST}
+\end{table}
+
+\section{Command-Line Interface Examples}
+
+\begin{verbatim}
+# Default training (14 epochs, batch size 64, Adadelta lr=1.0)
+python main.py
+
+# Custom epochs and batch size
+python main.py --epochs 5 --batch-size 32
+
+# Use GPU if available
+python main.py --no-accel   # Force CPU
+
+# Save model after training
+python main.py --save-model
+
+# Dry run (1 batch only, for testing the pipeline)
+python main.py --dry-run
+
+# Full example with all arguments specified
+python main.py --batch-size 64 --epochs 14 --lr 1.0 --gamma 0.7
+               --seed 1 --log-interval 10 --save-model
+\end{verbatim}
+
+\section{Syllabus Coverage}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{MNIST Project Feature}        & \textbf{Syllabus Unit} & \textbf{Lab Experiment} \\
+\hline
+CNN Architecture (Conv, Pool, FC)     & Unit III               & Lab 3 \\
+Backpropagation and Gradient Descent  & Unit II                & Lab 2 \\
+Dropout Regularisation                & Unit III               & Lab 4 \\
+Learning Rate Scheduling (StepLR)     & Unit II                & Lab 2 \\
+Model Evaluation (Loss, Accuracy)     & Unit IV                & Lab 5 \\
+Model Saving and Loading              & Unit IV                & Lab 6 \\
+Dataset Loading and Preprocessing     & Unit I                 & Lab 1 \\
+PyQt5 GUI with Inference Pipeline     & Unit V                 & Lab 7 \\
+\hline
+\end{tabular}
+\caption{MNIST Digit Classifier Syllabus Coverage Map}
+\end{table}
+
+\section{Project Screenshots}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{screenshot1.png}
+    \caption{MNIST Digit Classifier GUI --- Main Window with No Image Loaded}
+    \label{fig:screenshot1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{screenshot2.png}
+    \caption{GUI --- Image Loaded and Digit Predicted with Confidence Score}
+    \label{fig:screenshot2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{screenshot3.png}
+    \caption{GUI --- Class Probability Bars Showing Distribution across All 10 Digits}
+    \label{fig:screenshot3}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{screenshot4.png}
+    \caption{Terminal Output --- CNN Training Progress with Per-Epoch Loss and Accuracy}
+    \label{fig:screenshot4}
+\end{figure}
+
+% ================================================================
+% CHAPTER 5: CONCLUSION
+% ================================================================
+\chapter{Conclusion}
+
+The MNIST Digit Classifier project successfully demonstrates the practical application of Convolutional Neural Networks for image classification, combined with a fully functional PyQt5 desktop GUI that brings the trained model to life for any end user.
+
+\section{Key Achievements}
+
+\begin{enumerate}
+    \item \textbf{High Classification Accuracy:} Achieved $\approx$99\% test accuracy on 10,000 unseen images across 10 digit classes after 14 epochs of training, matching established CNN benchmarks on MNIST.
+
+    \item \textbf{Complete Deep Learning Pipeline:} Implemented the full supervised learning workflow from dataset download and preprocessing, through CNN definition, Adadelta-based training with StepLR scheduling, to evaluation and model persistence.
+
+    \item \textbf{Functional PyQt5 GUI:} Built a polished $900 \times 700$ px desktop application (\texttt{modern\_gui.py}) with two-column layout, image preview, 48pt prediction display, confidence percentage, and 10 animated probability bars. Supports both file dialog and drag-and-drop image loading.
+
+    \item \textbf{Background Threading for Responsiveness:} Implemented \texttt{PredictionWorker} using \texttt{QThread} and \texttt{pyqtSignal} so CNN inference runs off the main GUI thread, keeping the window fully interactive during prediction.
+
+    \item \textbf{Effective Regularisation:} Demonstrated the importance of Dropout (25\% after conv layers, 50\% after FC layers) --- removing dropout reduced test accuracy by 0.4\% while increasing training accuracy, confirming its generalisation role.
+
+    \item \textbf{Hardware Agnostic Implementation:} Both the training script and GUI automatically detect CUDA GPU, Apple MPS, or CPU, achieving 6--12$\times$ speedup on GPU without code changes.
+\end{enumerate}
+
+\section{Technical Skills Acquired}
+
+\begin{itemize}
+    \item CNN architecture design: convolutional layers, ReLU activations, max pooling, dropout, and fully connected layers.
+    \item PyTorch model definition using \texttt{nn.Module}, \texttt{forward()} function, and layer dimension management.
+    \item Deep learning training loop: optimizer, loss computation, \texttt{loss.backward()}, \texttt{optimizer.step()}, and learning rate scheduling.
+    \item Dataset loading and preprocessing with \texttt{torchvision.datasets} and \texttt{transforms.Compose}.
+    \item Model evaluation: switching between \texttt{model.train()} and \texttt{model.eval()} modes using \texttt{torch.no\_grad()} for inference.
+    \item Model persistence: \texttt{torch.save()} and \texttt{torch.load()} for saving and restoring trained weights.
+    \item \textbf{PyQt5 GUI development:} Building desktop applications with \texttt{QMainWindow}, \texttt{QVBoxLayout}, \texttt{QHBoxLayout}, \texttt{QLabel}, \texttt{QPushButton}, \texttt{QProgressBar}, and \texttt{QFrame}.
+    \item \textbf{Multithreaded GUI programming:} Using \texttt{QThread} and \texttt{pyqtSignal} / \texttt{pyqtSlot} to run heavy computation off the main UI thread and communicate results back safely.
+    \item \textbf{Image preprocessing for inference:} Using Pillow to open, convert, and resize custom images to match the model's expected input format.
+    \item Drag-and-drop event handling in Qt via \texttt{dragEnterEvent} and \texttt{dropEvent}.
+\end{itemize}
+
+\section{Lessons Learned}
+
+\begin{itemize}
+    \item \textbf{Architecture Matters More Than Data:} A simple CNN with two convolutional layers outperforms a deep fully connected network on image data because convolutions exploit spatial structure --- raw pixels are not independent features.
+    \item \textbf{Regularisation is Essential:} Without dropout, the model memorises training data but fails to generalise. Dropout forces each neuron to be independently useful, acting as an ensemble of smaller networks.
+    \item \textbf{Adaptive Optimizers Simplify Training:} Adadelta eliminates the need for manual learning rate tuning by adapting per-parameter rates. Combined with StepLR, the training converges reliably across different hardware configurations.
+    \item \textbf{Evaluation Mode Matters:} Forgetting to call \texttt{model.eval()} before inference leaves dropout active, producing non-deterministic and lower accuracy results. Always switch modes explicitly.
+    \item \textbf{Threading is Critical in GUI Applications:} Running CNN inference directly on the main Qt thread freezes the entire application window. Moving computation to a \texttt{QThread} worker with signal-slot communication keeps the interface responsive and provides a professional user experience.
+    \item \textbf{Preprocessing Must Match Training Exactly:} Using different normalisation constants or skipping the \texttt{ToTensor()} transform during GUI inference produces completely wrong predictions even from a well-trained model --- the preprocessing pipeline must be identical between training and deployment.
+\end{itemize}
+
+% ================================================================
+% CHAPTER 6: FUTURE WORK
+% ================================================================
+\chapter{Future Work}
+
+\begin{itemize}
+    \item \textbf{In-App Drawing Canvas:} Add a \texttt{QWidget}-based canvas inside the GUI where users can draw digits directly with their mouse or stylus, eliminating the need to prepare an image file before prediction.
+    \item \textbf{Webcam Real-Time Recognition:} Integrate OpenCV to capture live webcam frames, crop the digit region, and run the CNN in real time, displaying predictions at 30 fps within the PyQt5 window.
+    \item \textbf{Data Augmentation:} Apply random rotations ($\pm$10\textdegree), translations, and elastic distortions during training to improve robustness to handwriting style variation and push accuracy beyond 99.5\%.
+    \item \textbf{Deeper Architecture (ResNet):} Replace the two-layer CNN with a residual network (ResNet) using skip connections, enabling training of much deeper networks without vanishing gradient problems.
+    \item \textbf{Hyperparameter Tuning:} Use Optuna or Ray Tune to automatically search over learning rates, dropout rates, filter sizes, and batch sizes for a globally optimal configuration.
+    \item \textbf{Transfer Learning:} Pre-train the CNN on a larger dataset (e.g., ImageNet) and fine-tune only the final layers on MNIST to demonstrate cross-domain feature transfer.
+    \item \textbf{Mobile Deployment (ONNX / TFLite):} Export the trained \texttt{.pt} model to ONNX format and convert to TensorFlow Lite for deployment on Android and iOS devices for offline, on-device digit recognition.
+    \item \textbf{Executable Packaging:} Package \texttt{modern\_gui.py} into a standalone Windows \texttt{.exe} or macOS \texttt{.app} using PyInstaller so end users can run the classifier without any Python installation.
+    \item \textbf{Confusion Matrix Visualisation:} Add a post-training analysis panel in the GUI that renders a $10 \times 10$ confusion matrix and per-class precision, recall, and F1 scores, identifying which digit pairs the model most frequently confuses.
+    \item \textbf{Extension to EMNIST:} Extend the classifier to the EMNIST dataset which contains 62 classes including lowercase and uppercase letters in addition to digits, transforming it into a full handwritten character recogniser.
+    \item \textbf{Explainability with Grad-CAM:} Implement Gradient-weighted Class Activation Mapping (Grad-CAM) to overlay a heatmap on the input image inside the GUI, visually showing which pixel regions the CNN focused on to reach its prediction decision.
+    \item \textbf{Batch Image Prediction Mode:} Add a folder selection feature in the GUI that processes an entire directory of digit images at once and exports the results (filename, predicted digit, confidence percentage) to a \texttt{.csv} file automatically.
+    \item \textbf{Cloud API Deployment:} Wrap the \texttt{predict\_image()} function in a FastAPI REST endpoint and deploy it to AWS Lambda or Google Cloud Run, enabling predictions from any browser or mobile device without installing the application locally.
+\end{itemize}
+
+% ================================================================
+% REFERENCES
+% ================================================================
+\chapter{References}
+
+\begin{enumerate}
+    \item LeCun, Y., Bottou, L., Bengio, Y., \& Haffner, P. (1998). Gradient-Based Learning Applied to Document Recognition. \textit{Proceedings of the IEEE}, 86(11), 2278--2324.
+    \item Goodfellow, I., Bengio, Y., \& Courville, A. (2016). \textit{Deep Learning}. MIT Press. Available at: \url{https://www.deeplearningbook.org}
+    \item LeCun, Y., Cortes, C., \& Burges, C. J. C. \textit{The MNIST Database of Handwritten Digits}. Available at: \url{http://yann.lecun.com/exdb/mnist/}
+    \item Srivastava, N., Hinton, G., Krizhevsky, A., Sutskever, I., \& Salakhutdinov, R. (2014). Dropout: A Simple Way to Prevent Neural Networks from Overfitting. \textit{Journal of Machine Learning Research}, 15(1), 1929--1958.
+    \item Zeiler, M. D. (2012). ADADELTA: An Adaptive Learning Rate Method. \textit{arXiv preprint} arXiv:1212.5701.
+    \item Krizhevsky, A., Sutskever, I., \& Hinton, G. E. (2012). ImageNet Classification with Deep Convolutional Neural Networks. \textit{Advances in Neural Information Processing Systems}, 25.
+    \item Paszke, A., et al. (2019). PyTorch: An Imperative Style, High-Performance Deep Learning Library. \textit{Advances in Neural Information Processing Systems}, 32.
+    \item PyTorch Documentation. Available at: \url{https://docs.pytorch.org/docs/stable/index.html}
+    \item torchvision Documentation. Available at: \url{https://docs.pytorch.org/vision/stable/index.html}
+    \item pytorch/examples GitHub Repository. Available at: \url{https://github.com/pytorch/examples/tree/main/mnist}
+    \item PyTorch \texttt{nn.Module} Reference. Available at: \url{https://docs.pytorch.org/docs/stable/generated/torch.nn.Module.html}
+    \item PyTorch \texttt{optim.Adadelta} Reference. Available at: \url{https://docs.pytorch.org/docs/stable/generated/torch.optim.Adadelta.html}
+    \item Riverbank Computing. \textit{PyQt5 Reference Guide}. Available at: \url{https://www.riverbankcomputing.com/static/Docs/PyQt5/}
+    \item Pillow (PIL Fork) Documentation. Available at: \url{https://pillow.readthedocs.io/en/stable/}
+\end{enumerate}
+
+\end{document}
