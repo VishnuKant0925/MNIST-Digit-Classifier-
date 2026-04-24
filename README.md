@@ -84,12 +84,12 @@ python main.py --save-model \
 
 ```bash
 # Clone using HTTPS (recommended for most users)
-git clone https://github.com/yourusername/mnist-digit-recognition.git
-cd mnist-digit-recognition
+git clone https://github.com/VishnuKant0925/MNIST-Digit-Classifier-.git
+cd MNIST-Digit-Classifier-
 
 # OR clone using SSH (if you have SSH keys configured)
-git clone git@github.com:yourusername/mnist-digit-recognition.git
-cd mnist-digit-recognition
+git clone git@github.com:VishnuKant0925/MNIST-Digit-Classifier-.git
+cd MNIST-Digit-Classifier-
 ```
 
 #### 2. Create a Virtual Environment
@@ -260,11 +260,11 @@ graph LR
     GPU -->|Return| OUTPUT
     OUTPUT -->|Display| GUI
 
-    style GUI fill:#4CAF50
-    style MODEL fill:#2196F3
-    style PYTORCH fill:#FF9800
-    style GPU fill:#F44336
-    style OUTPUT fill:#9C27B0
+    style GUI fill:#00897B,stroke:#004D40,stroke-width:3px,color:#fff
+    style MODEL fill:#1565C0,stroke:#0D47A1,stroke-width:3px,color:#fff
+    style PYTORCH fill:#F57F17,stroke:#E65100,stroke-width:3px,color:#fff
+    style GPU fill:#388E3C,stroke:#1B5E20,stroke-width:3px,color:#fff
+    style OUTPUT fill:#6A1B9A,stroke:#38006B,stroke-width:3px,color:#fff
 ```
 
 ---
@@ -307,13 +307,18 @@ graph TD
     J --> K["Dense Layer 2<br/>128 → 10<br/>LogSoftmax"]
     K --> L["Output<br/>Digit Prediction<br/>0-9"]
 
-    style A fill:#E3F2FD
-    style B fill:#BBDEFB
-    style D fill:#BBDEFB
-    style F fill:#64B5F6
-    style I fill:#42A5F5
-    style K fill:#FFC107
-    style L fill:#4CAF50
+    style A fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#000
+    style B fill:#2E7D32,stroke:#1B5E20,stroke-width:2px,color:#fff
+    style C fill:#558B2F,stroke:#33691E,stroke-width:2px,color:#fff
+    style D fill:#2E7D32,stroke:#1B5E20,stroke-width:2px,color:#fff
+    style E fill:#558B2F,stroke:#33691E,stroke-width:2px,color:#fff
+    style F fill:#1565C0,stroke:#0D47A1,stroke-width:2px,color:#fff
+    style G fill:#4527A0,stroke:#311B92,stroke-width:2px,color:#fff
+    style H fill:#0277BD,stroke:#01579B,stroke-width:2px,color:#fff
+    style I fill:#1565C0,stroke:#0D47A1,stroke-width:2px,color:#fff
+    style J fill:#4527A0,stroke:#311B92,stroke-width:2px,color:#fff
+    style K fill:#F57F17,stroke:#E65100,stroke-width:2px,color:#fff
+    style L fill:#00695C,stroke:#004D40,stroke-width:2px,color:#fff
 ```
 
 **Key Components:**
@@ -340,6 +345,16 @@ graph LR
     F --> G["Backward Pass<br/>Gradient Computation"]
     G --> H["Update Weights<br/>SGD Optimizer"]
     H --> I["Save Checkpoint<br/>mnist_cnn.pt"]
+
+    style A fill:#1565C0,stroke:#0D47A1,stroke-width:2px,color:#fff
+    style B fill:#1976D2,stroke:#0D47A1,stroke-width:2px,color:#fff
+    style C fill:#1565C0,stroke:#0D47A1,stroke-width:2px,color:#fff
+    style D fill:#1976D2,stroke:#0D47A1,stroke-width:2px,color:#fff
+    style E fill:#F57F17,stroke:#E65100,stroke-width:2px,color:#fff
+    style F fill:#D32F2F,stroke:#B71C1C,stroke-width:2px,color:#fff
+    style G fill:#D32F2F,stroke:#B71C1C,stroke-width:2px,color:#fff
+    style H fill:#F57F17,stroke:#E65100,stroke-width:2px,color:#fff
+    style I fill:#00897B,stroke:#004D40,stroke-width:2px,color:#fff
 ```
 
 ### Inference Data Pipeline
@@ -354,6 +369,16 @@ graph LR
     F --> G["Get Predictions<br/>10 Classes"]
     G --> H["Extract Top Result<br/>+ Confidence"]
     H --> I["Display in GUI<br/>PyQt5"]
+
+    style A fill:#D32F2F,stroke:#B71C1C,stroke-width:2px,color:#fff
+    style B fill:#E64A19,stroke:#BF360C,stroke-width:2px,color:#fff
+    style C fill:#F57F17,stroke:#E65100,stroke-width:2px,color:#fff
+    style D fill:#F57F17,stroke:#E65100,stroke-width:2px,color:#fff
+    style E fill:#1565C0,stroke:#0D47A1,stroke-width:2px,color:#fff
+    style F fill:#388E3C,stroke:#1B5E20,stroke-width:2px,color:#fff
+    style G fill:#1565C0,stroke:#0D47A1,stroke-width:2px,color:#fff
+    style H fill:#6A1B9A,stroke:#38006B,stroke-width:2px,color:#fff
+    style I fill:#00897B,stroke:#004D40,stroke-width:2px,color:#fff
 ```
 
 ---
@@ -456,12 +481,12 @@ PyQt5
 
 ## 👨‍💻 Author
 
-**Vishn**
+**Vishnu Kant**
 
 - Machine Learning enthusiast
 - Deep Learning & Computer Vision specialist
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Email: your.email@example.com
+- GitHub: [@VishnuKant0925](https://github.com/VishnuKant0925)
+- Email: vishnukant844121@gmail.com
 
 This project was developed as a comprehensive demonstration of CNN architecture, PyTorch implementation, and building production-ready ML applications with user interfaces.
 
@@ -506,9 +531,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 For issues, questions, or suggestions:
 
-- 📝 Open an [issue](https://github.com/yourusername/mnist-digit-recognition/issues) on GitHub
-- 💬 Start a [discussion](https://github.com/yourusername/mnist-digit-recognition/discussions)
-- 📧 Contact the author directly
+- 📝 Open an [issue](https://github.com/VishnuKant0925/MNIST-Digit-Classifier-/issues) on GitHub
+- 💬 Start a [discussion](https://github.com/VishnuKant0925/MNIST-Digit-Classifier-/discussions)
+- 📧 Email: vishnukant844121@gmail.com
 
 ---
 
