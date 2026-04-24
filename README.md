@@ -260,11 +260,11 @@ graph LR
     GPU -->|Return| OUTPUT
     OUTPUT -->|Display| GUI
 
-    style GUI fill:#00897B,stroke:#004D40,stroke-width:3px,color:#fff
-    style MODEL fill:#1565C0,stroke:#0D47A1,stroke-width:3px,color:#fff
-    style PYTORCH fill:#F57F17,stroke:#E65100,stroke-width:3px,color:#fff
-    style GPU fill:#388E3C,stroke:#1B5E20,stroke-width:3px,color:#fff
-    style OUTPUT fill:#6A1B9A,stroke:#38006B,stroke-width:3px,color:#fff
+    style GUI fill:#00897B,stroke:#004D40,stroke-width:3px,color:#000
+    style MODEL fill:#1565C0,stroke:#0D47A1,stroke-width:3px,color:#000
+    style PYTORCH fill:#F57F17,stroke:#E65100,stroke-width:3px,color:#000
+    style GPU fill:#388E3C,stroke:#1B5E20,stroke-width:3px,color:#000
+    style OUTPUT fill:#6A1B9A,stroke:#38006B,stroke-width:3px,color:#000
 ```
 
 ---
@@ -308,16 +308,16 @@ graph TD
     K --> L["Output<br/>Digit Prediction<br/>0-9"]
 
     style A fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#000
-    style B fill:#2E7D32,stroke:#1B5E20,stroke-width:2px,color:#fff
-    style C fill:#558B2F,stroke:#33691E,stroke-width:2px,color:#fff
-    style D fill:#2E7D32,stroke:#1B5E20,stroke-width:2px,color:#fff
-    style E fill:#558B2F,stroke:#33691E,stroke-width:2px,color:#fff
+    style B fill:#2E7D32,stroke:#1B5E20,stroke-width:2px,color:#000
+    style C fill:#558B2F,stroke:#33691E,stroke-width:2px,color:#000
+    style D fill:#2E7D32,stroke:#1B5E20,stroke-width:2px,color:#000
+    style E fill:#558B2F,stroke:#33691E,stroke-width:2px,color:#000
     style F fill:#1565C0,stroke:#0D47A1,stroke-width:2px,color:#fff
     style G fill:#4527A0,stroke:#311B92,stroke-width:2px,color:#fff
     style H fill:#0277BD,stroke:#01579B,stroke-width:2px,color:#fff
     style I fill:#1565C0,stroke:#0D47A1,stroke-width:2px,color:#fff
     style J fill:#4527A0,stroke:#311B92,stroke-width:2px,color:#fff
-    style K fill:#F57F17,stroke:#E65100,stroke-width:2px,color:#fff
+    style K fill:#F57F17,stroke:#E65100,stroke-width:2px,color:#000
     style L fill:#00695C,stroke:#004D40,stroke-width:2px,color:#fff
 ```
 
@@ -350,10 +350,10 @@ graph LR
     style B fill:#1976D2,stroke:#0D47A1,stroke-width:2px,color:#fff
     style C fill:#1565C0,stroke:#0D47A1,stroke-width:2px,color:#fff
     style D fill:#1976D2,stroke:#0D47A1,stroke-width:2px,color:#fff
-    style E fill:#F57F17,stroke:#E65100,stroke-width:2px,color:#fff
+    style E fill:#F57F17,stroke:#E65100,stroke-width:2px,color:#000
     style F fill:#D32F2F,stroke:#B71C1C,stroke-width:2px,color:#fff
     style G fill:#D32F2F,stroke:#B71C1C,stroke-width:2px,color:#fff
-    style H fill:#F57F17,stroke:#E65100,stroke-width:2px,color:#fff
+    style H fill:#F57F17,stroke:#E65100,stroke-width:2px,color:#000
     style I fill:#00897B,stroke:#004D40,stroke-width:2px,color:#fff
 ```
 
@@ -372,8 +372,8 @@ graph LR
 
     style A fill:#D32F2F,stroke:#B71C1C,stroke-width:2px,color:#fff
     style B fill:#E64A19,stroke:#BF360C,stroke-width:2px,color:#fff
-    style C fill:#F57F17,stroke:#E65100,stroke-width:2px,color:#fff
-    style D fill:#F57F17,stroke:#E65100,stroke-width:2px,color:#fff
+    style C fill:#F57F17,stroke:#E65100,stroke-width:2px,color:#000
+    style D fill:#F57F17,stroke:#E65100,stroke-width:2px,color:#000
     style E fill:#1565C0,stroke:#0D47A1,stroke-width:2px,color:#fff
     style F fill:#388E3C,stroke:#1B5E20,stroke-width:2px,color:#fff
     style G fill:#1565C0,stroke:#0D47A1,stroke-width:2px,color:#fff
